@@ -24,6 +24,9 @@ class ZoneStatus(PanelItemStatus):
             f"  Excluded: {'Yes' if self.excluded else 'No'}"
         )
 
+    def short_str(self) -> str:
+        return f"Zone {self.id}: {self.name}"
+
 from dataclasses import dataclass
 
 @dataclass(frozen=True)

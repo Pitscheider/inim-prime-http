@@ -2,6 +2,7 @@ import asyncio
 import sys
 
 from inim_prime import InimPrimeClient
+from inim_prime.helpers.zones import get_excluded_zones, include_all_zones
 from inim_prime.models import ZoneExclusionSetRequest
 from inim_prime.models.area import AreaMode, ActivateScenarioRequest, SetAreaModeRequest
 
@@ -17,6 +18,27 @@ import os
 
 load_dotenv()  # loads variables from .env into environment
 
+def print_help():
+    print("\nAvailable commands:")
+
+    print("?. help")
+    print("1. ping")
+    print("2. get_api_version")
+    print("3. get_zones")
+    print("4. get_outputs")
+    print("5. get_areas")
+    print("6. get_scenarios")
+    print("7. get_log_events")
+    print("8. get_nexus_status")
+    print("9. get_system_faults")
+    print("10. set_zone_exclusion")
+    print("11. set_output")
+    print("12. set_area_mode")
+    print("13. activate_scenario")
+    print("101. get_excluded_zones")
+    print("102. include_all_zones")
+    print("0. quit")
+
 
 async def main():
 
@@ -26,30 +48,17 @@ async def main():
 
     async with InimPrimeClient(host, api_key) as client:
         print("Connected to Inim Prime panel!")
-
+        print_help()
         while True:
-            print("\nAvailable commands:")
-            print("1. ping")
-            print("2. get_api_version")
-            print("3. get_zones")
-            print("4. get_outputs")
-            print("5. get_areas")
-            print("6. get_scenarios")
-            print("7. get_log_events")
-            print("8. get_nexus_status")
-            print("9. get_system_faults")
-            print("10. set_zone_exclusion")
-            print("11. set_output")
-            print("12. set_area_mode")
-            print("13. activate_scenario")
-            print("0. quit")
-
             choice = input("Select an option: ").strip()
 
             try:
                 if choice == "0":
                     print("Exiting...")
+                    client.close()
                     break
+                elif choice == "?":
+                    print_help()
                 elif choice == "1":
                     result = await client.ping()
                     print("Ping result:", result)
@@ -131,6 +140,23 @@ async def main():
                 elif choice == "13":
                     scenario_id = int(input("Enter scenario ID to activate: "))
                     await client.activate_scenario(ActivateScenarioRequest(scenario_id))
+                elif choice == "101":
+                    excluded = await get_excluded_zones(client)
+
+                    if excluded:
+                        for zone in excluded:
+                            print(zone)
+                    else:
+                        print("No zones to exclude")
+                elif choice == "102":
+                    included = await include_all_zones(client)
+
+                    if included:
+                        print("Zones included:")
+                        for zone in included:
+                            print(zone.short_str())
+                    else:
+                        print("All the zones are already included")
                 else:
                     print("Invalid choice, try again.")
             except Exception as e:
