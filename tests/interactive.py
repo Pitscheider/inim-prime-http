@@ -30,7 +30,7 @@ async def main():
         while True:
             print("\nAvailable commands:")
             print("1. ping")
-            print("2. get_version")
+            print("2. get_api_version")
             print("3. get_zones")
             print("4. get_outputs")
             print("5. get_areas")
@@ -54,8 +54,8 @@ async def main():
                     result = await client.ping()
                     print("Ping result:", result)
                 elif choice == "2":
-                    version = await client.get_version()
-                    print("Panel version:", version)
+                    version = await client.get_api_version()
+                    print("API version:", version)
                 elif choice == "3":
                     zones = await client.get_zones_status()
                     for zone in zones:

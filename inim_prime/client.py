@@ -124,8 +124,10 @@ class InimPrimeClient:
 
         return data.get("Data")
 
-    async def get_version(self) -> str:
-        return await self._request("version")
+    async def get_api_version(self) -> str:
+        raw_data = await self._request("version")
+        version = raw_data.get("version")
+        return version
 
     async def ping(self) -> bool:
         await self._request("ping")
