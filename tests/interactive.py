@@ -67,19 +67,19 @@ async def main():
                     print("API version:", version)
                 elif choice == "3":
                     zones = await client.get_zones_status()
-                    for zone in zones:
+                    for zone in zones.values():
                         print(zone)
                 elif choice == "4":
                     outputs = await client.get_outputs_status()
-                    for output in outputs:
+                    for output in outputs.values():
                         print(output)
                 elif choice == "5":
                     areas = await client.get_areas_status()
-                    for area in areas:
+                    for area in areas.values():
                         print(area)
                 elif choice == "6":
                     scenarios = await client.get_scenarios_status()
-                    for scenario in scenarios:
+                    for scenario in scenarios.values():
                         print(scenario)
                 elif choice == "7":
                     user_input = input("Limit (1-4000, default 100): ").strip()

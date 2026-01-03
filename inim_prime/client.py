@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 import ssl
 import aiohttp
-from typing import Any
+from typing import Any, FrozenSet, Tuple
 
 from .models import *
 from .const import *
@@ -133,85 +133,77 @@ class InimPrimeClient:
         await self._request("ping")
         return True
 
-    async def get_zones_status(self) -> list[ZoneStatus]:
+    async def get_zones_status(self) -> dict[int, ZoneStatus]:
         raw_data = await self._request(CMD_GET_ZONES_STATUS)
 
         zones_data = raw_data.get("zone", [])
 
-        zones = []
-
-        for zone_data in zones_data:
-            zones.append(
-                ZoneStatus(
-                    id = int(zone_data["id"]),
-                    name = zone_data["lb"],
-                    terminal = int(zone_data["tl"]),
-                    state = ZoneState(int(zone_data["st"])),
-                    alarm_memory = bool(int(zone_data["mm"])),
-                    excluded = not bool(int(zone_data["by"])), # by=1 means included
-                )
+        zones = {
+            int(zone_data["id"]): ZoneStatus(
+                id=int(zone_data["id"]),
+                name=zone_data["lb"],
+                terminal=int(zone_data["tl"]),
+                state=ZoneState(int(zone_data["st"])),
+                alarm_memory=bool(int(zone_data["mm"])),
+                excluded=not bool(int(zone_data["by"])),  # by=1 means included
             )
+            for zone_data in zones_data
+        }
 
         return zones
 
-    async def get_outputs_status(self) -> list[OutputStatus]:
+    async def get_outputs_status(self) -> dict[int, OutputStatus]:
         raw_data = await self._request(CMD_GET_OUTPUTS_STATUS)
 
         outputs_data = raw_data.get("cmd", [])
 
-        outputs = []
-
-        for output_data in outputs_data:
-            outputs.append(
-                OutputStatus(
-                    id = int(output_data["id"]),
-                    name = output_data["lb"],
-                    terminal = int(output_data["tl"]),
-                    state = int(output_data["st"]),
-                    type = OutputType(int(output_data["t"])),
-                    voltage = _parse_float(output_data.get("v")) if "v" in output_data else None,
-                    power = _parse_float(output_data.get("p")) if "p" in output_data else None,
-                    cos_phi = _parse_float(output_data.get("c")) if "c" in output_data else None,
-                )
+        outputs = {
+            int(output_data["id"]): OutputStatus(
+                id = int(output_data["id"]),
+                name = output_data["lb"],
+                terminal = int(output_data["tl"]),
+                state = int(output_data["st"]),
+                type = OutputType(int(output_data["t"])),
+                voltage = _parse_float(output_data.get("v")) if "v" in output_data else None,
+                power = _parse_float(output_data.get("p")) if "p" in output_data else None,
+                cos_phi = _parse_float(output_data.get("c")) if "c" in output_data else None,
             )
+            for output_data in outputs_data
+        }
 
         return outputs
 
-    async def get_areas_status(self) -> list[AreaStatus]:
+    async def get_areas_status(self) -> dict[int, AreaStatus]:
         raw_data = await self._request(CMD_GET_PARTITIONS_STATUS)
 
         areas_data = raw_data.get("part", [])
 
-        areas = []
-
-        for area_data in areas_data:
-            areas.append(
-                AreaStatus(
-                    id = int(area_data["id"]),
-                    name = area_data["lb"],
-                    state = AreaState(int(area_data["st"])),
-                    mode = AreaControlMode(int(area_data["am"])),
-                    alarm_memory = bool(int(area_data["mm"])),
-                )
+        areas = {
+            int(area_data["id"]): AreaStatus(
+                id=int(area_data["id"]),
+                name=area_data["lb"],
+                state=AreaState(int(area_data["st"])),
+                mode=AreaControlMode(int(area_data["am"])),
+                alarm_memory=bool(int(area_data["mm"])),
             )
+            for area_data in areas_data
+        }
 
         return areas
 
-    async def get_scenarios_status(self) -> list[ScenarioStatus]:
+    async def get_scenarios_status(self) -> dict[int, ScenarioStatus]:
         raw_data = await self._request(CMD_GET_SCENARIOS_STATUS)
 
         scenarios_data = raw_data.get("sce", [])
 
-        scenarios = []
-
-        for scenario_data in scenarios_data:
-            scenarios.append(
-                ScenarioStatus(
-                    id = int(scenario_data["id"]),
-                    name = scenario_data["lb"],
-                    state = bool(int(scenario_data["st"])),
-                )
+        scenarios = {
+            int(scenario_data["id"]): ScenarioStatus(
+                id=int(scenario_data["id"]),
+                name=scenario_data["lb"],
+                state=bool(int(scenario_data["st"])),
             )
+            for scenario_data in scenarios_data
+        }
 
         return scenarios
 
@@ -225,21 +217,19 @@ class InimPrimeClient:
 
         log_events_data = raw_data.get("log", [])
 
-        log_events = []
-
-        for log_event_data in log_events_data:
-            log_events.append(
-                LogEvent(
-                    id = int(log_event_data["id"]),
-                    timestamp = datetime.strptime(
-                        log_event_data["dt"], "%d/%m/%Y %H:%M:%S"
-                    ),
-                    type = log_event_data["ty"],
-                    agent = log_event_data["ag"] or None,
-                    location = log_event_data["lo"] or None,
-                    value = log_event_data["v"] or None,
-                )
+        log_events = [
+            LogEvent(
+                id=int(log_event_data["id"]),
+                timestamp=datetime.strptime(
+                    log_event_data["dt"], "%d/%m/%Y %H:%M:%S"
+                ),
+                type=log_event_data["ty"],
+                agent=log_event_data["ag"] or None,
+                location=log_event_data["lo"] or None,
+                value=log_event_data["v"] or None,
             )
+            for log_event_data in log_events_data
+        ]
 
         return log_events
 
