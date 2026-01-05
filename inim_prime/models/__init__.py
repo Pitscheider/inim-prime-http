@@ -1,7 +1,7 @@
 from .panel_item import PanelItemStatus
 from .zone import ZoneStatus, ZoneState
 from .output import OutputStatus, OutputType
-from .area import AreaStatus, AreaControlMode, AreaState
+from .area import AreaStatus, AreaState
 from .scenario import ScenarioStatus
 from .log_event import LogEvent
 from .nexus import NexusStatus

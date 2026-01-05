@@ -8,7 +8,7 @@ from typing import Any, FrozenSet, Tuple
 from .models import *
 from .const import *
 from .exceptions import *
-from .models.area import SetAreaModeRequest, ActivateScenarioRequest
+from .models.area import SetAreaModeRequest, ActivateScenarioRequest, AreaMode
 from .models.output import OutputSetRequest
 
 from .models.scenario import ScenarioStatus
@@ -183,7 +183,7 @@ class InimPrimeClient:
                 id=int(area_data["id"]),
                 name=area_data["lb"],
                 state=AreaState(int(area_data["st"])),
-                mode=AreaControlMode(int(area_data["am"])),
+                mode=AreaMode(int(area_data["am"])),
                 alarm_memory=bool(int(area_data["mm"])),
             )
             for area_data in areas_data

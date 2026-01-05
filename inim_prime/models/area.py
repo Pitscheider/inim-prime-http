@@ -9,14 +9,12 @@ class AreaMode(IntEnum):
     PARTIAL = 2
     INSTANT = 3
     DISARMED = 4
-    CLEAR_ALARM_MEMORY = 5
 
-
-class AreaControlMode(IntEnum):
-    TOTAL = AreaMode.TOTAL
-    PARTIAL = AreaMode.PARTIAL
-    INSTANT = AreaMode.INSTANT
-    DISARMED = AreaMode.DISARMED
+# class AreaControlMode(IntEnum):
+#     TOTAL = AreaMode.TOTAL
+#     PARTIAL = AreaMode.PARTIAL
+#     INSTANT = AreaMode.INSTANT
+#     DISARMED = AreaMode.DISARMED
 
 class AreaArmMode(IntEnum):
     TOTAL = AreaMode.TOTAL
@@ -31,7 +29,7 @@ class AreaState(IntEnum):
 
 @dataclass(frozen=True)
 class AreaStatus(PanelItemStatus):
-    mode: AreaControlMode       # "am" - insert mode
+    mode: AreaMode       # "am" - insert mode
     state: AreaState     # "st" - area status
     alarm_memory: bool   # "mm" - alarm memory
 
