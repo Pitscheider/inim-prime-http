@@ -8,7 +8,7 @@ from typing import Any, FrozenSet, Tuple
 from .models import *
 from .const import *
 from .exceptions import *
-from .models.area import SetAreaModeRequest, ActivateScenarioRequest, AreaMode
+from .models.area import SetAreaModeRequest, ActivateScenarioRequest, AreaMode, ClearAreaAlarmMemoryRequest
 from .models.output import OutputSetRequest
 
 from .models.scenario import ScenarioStatus
@@ -298,6 +298,18 @@ class InimPrimeClient:
             CMD_SET_PARTITIONS_MODE,
             p1=request.area_id,
             p2=request.mode.value,
+        )
+
+        return
+
+    async def clear_area_alarm_memory(
+        self,
+        request: ClearAreaAlarmMemoryRequest,
+    ) -> None:
+        await self._request(
+            CMD_SET_PARTITIONS_MODE,
+            p1=request.area_id,
+            p2=5,
         )
 
         return
