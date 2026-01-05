@@ -10,3 +10,7 @@ class ScenarioStatus(PanelItemStatus):
             f"Scenario {self.id}: {self.name}\n"
             f"  State: {'Active' if self.state else 'Inactive'}"
         )
+
+@dataclass(frozen=True)
+class ActivateScenarioRequest:
+    scenario_id: int

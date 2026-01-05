@@ -4,9 +4,10 @@ import sys
 from inim_prime import InimPrimeClient
 from inim_prime.helpers.zones import get_excluded_zones, include_all_zones
 from inim_prime.models import ZoneExclusionSetRequest
-from inim_prime.models.area import AreaMode, ActivateScenarioRequest, SetAreaModeRequest
+from inim_prime.models.area import AreaMode, SetAreaModeRequest
 
 from inim_prime.models.output import OutputSetRequest
+from inim_prime.models.scenario import ActivateScenarioRequest
 
 if sys.platform == "win32":
     # Use SelectorEventLoop for Windows compatibility

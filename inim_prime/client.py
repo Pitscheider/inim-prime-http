@@ -8,10 +8,10 @@ from typing import Any, FrozenSet, Tuple
 from .models import *
 from .const import *
 from .exceptions import *
-from .models.area import SetAreaModeRequest, ActivateScenarioRequest, AreaMode, ClearAreaAlarmMemoryRequest
+from .models.area import SetAreaModeRequest, AreaMode, ClearAreaAlarmMemoryRequest
 from .models.output import OutputSetRequest
 
-from .models.scenario import ScenarioStatus
+from .models.scenario import ScenarioStatus, ActivateScenarioRequest
 from .models.system_faults import SystemFaultsStatus, SystemFault
 from .models.zone import ZoneExclusionSetRequest
 

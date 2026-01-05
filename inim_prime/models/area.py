@@ -50,6 +50,3 @@ class SetAreaModeRequest:
 class ClearAreaAlarmMemoryRequest:
     area_id: int
 
-@dataclass(frozen=True)
-class ActivateScenarioRequest:
-    scenario_id: int
