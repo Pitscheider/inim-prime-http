@@ -8,7 +8,7 @@ class GSMSStatus:
     firmware_version: Optional[str]   # "fwv"
     operator: Optional[str]           # "gop"
     signal_strength: Optional[int]    # percentage 0 - 100%
-    credit: Optional[str]             # "cre"
+    credit: Optional[str]             # "credit"
 
     def __str__(self) -> str:
         parts = ["GSM Status:"]

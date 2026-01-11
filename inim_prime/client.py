@@ -241,7 +241,7 @@ class InimPrimeClient:
             firmware_version = raw_data.get("fwv") or None,
             operator = raw_data.get("gop") or None,
             signal_strength = int(raw_data["gpw"]) if raw_data.get("gpw") else None,
-            credit = raw_data.get("cre") or None,
+            credit = raw_data.get("cre") if raw_data.get("cre") != "--" else None,
         )
 
         return gsm_status
