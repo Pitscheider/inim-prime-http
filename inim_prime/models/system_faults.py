@@ -23,6 +23,24 @@ class SystemFault(IntEnum):
     SABOTAGE_FAULT = 14
     INTERNET_FAULT = 15
 
+EXPOSED_SYSTEM_FAULTS: FrozenSet[SystemFault] = frozenset({
+    SystemFault.LOW_BATTERY,
+    SystemFault.NETWORK_FAULT,
+    SystemFault.NO_TELEPHONE_LINE,
+    SystemFault.RADIO_JAMMING,
+    SystemFault.LOW_BATTERY_WIRELESS,
+    SystemFault.WIRELESS_DEVICE_DISAPPEARANCE,
+    SystemFault.GSM_FAULT,
+    SystemFault.SENSOR_DIRTY,
+    SystemFault.ZONE_FAULT,
+    SystemFault.SIRENS_FAULT,
+    SystemFault.POWER_SUPPLY_FAULT,
+    SystemFault.RADIO_KEYBOARDS_FAULT,
+    SystemFault.SABOTAGE_FAULT,
+    SystemFault.INTERNET_FAULT,
+})
+
+
 @dataclass(frozen=True)
 class SystemFaultsStatus:
     supply_voltage: Optional[float]
@@ -43,9 +61,32 @@ class SystemFaultsStatus:
 
         return "\n".join(lines)
 
+    # ───────────────
+    # Generic helpers
+    # ───────────────
+
     @property
     def has_any_fault(self) -> bool:
         return bool(self.faults)
 
     def has_fault(self, fault: SystemFault) -> bool:
         return fault in self.faults
+
+    def fault_count(self) -> int:
+        return len(self.faults)
+
+    # ─────────────────────
+    # Exposure-aware helpers
+    # ─────────────────────
+
+    @property
+    def exposed_faults(self) -> FrozenSet[SystemFault]:
+        return self.faults & EXPOSED_SYSTEM_FAULTS
+
+    @property
+    def has_any_exposed_fault(self) -> bool:
+        return bool(self.exposed_faults)
+
+    @property
+    def exposed_fault_count(self) -> int:
+        return len(self.exposed_faults)
