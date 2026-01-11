@@ -30,7 +30,7 @@ def print_help():
     print("5. get_areas")
     print("6. get_scenarios")
     print("7. get_log_events")
-    print("8. get_nexus_status")
+    print("8. get_gsm_status")
     print("9. get_system_faults")
     print("10. set_zone_exclusion")
     print("11. set_output")
@@ -94,8 +94,8 @@ async def main():
                     for log_event in log_events:
                         print(log_event)
                 elif choice == "8":
-                    nexus_status = await client.get_nexus_status()
-                    print(nexus_status)
+                    gsm_status = await client.get_gsm_status()
+                    print(gsm_status)
                 elif choice == "9":
                     system_faults = await client.get_system_faults_status()
                     print(system_faults)

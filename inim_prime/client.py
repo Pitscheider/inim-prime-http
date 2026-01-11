@@ -233,10 +233,10 @@ class InimPrimeClient:
 
         return log_events
 
-    async def get_nexus_status(self) -> NexusStatus:
+    async def get_gsm_status(self) -> GSMSStatus:
         raw_data = await self._request(CMD_GET_GSM_STATUS)
 
-        nexus_status = NexusStatus(
+        gsm_status = GSMSStatus(
             supply_voltage = _parse_float(raw_data.get("vcc")),
             firmware_version = raw_data.get("fwv") or None,
             operator = raw_data.get("gop") or None,
@@ -244,7 +244,7 @@ class InimPrimeClient:
             credit = raw_data.get("cre") or None,
         )
 
-        return nexus_status
+        return gsm_status
 
     async def get_system_faults_status(self) -> SystemFaultsStatus:
         raw_data = await self._request(CMD_GET_FAULTS_STATUS)

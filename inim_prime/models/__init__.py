@@ -4,6 +4,6 @@ from .output import OutputStatus, OutputType
 from .area import AreaStatus, AreaState
 from .scenario import ScenarioStatus
 from .log_event import LogEvent
-from .nexus import NexusStatus
+from .gsm import GSMSStatus
 from .system_faults import SystemFaultsStatus
 from .zone import ZoneExclusionSetRequest

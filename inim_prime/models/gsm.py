@@ -3,7 +3,7 @@ from typing import Optional
 
 
 @dataclass(frozen=True)
-class NexusStatus:
+class GSMSStatus:
     supply_voltage: Optional[float]   # "vcc"
     firmware_version: Optional[str]   # "fwv"
     operator: Optional[str]           # "gop"
@@ -11,7 +11,7 @@ class NexusStatus:
     credit: Optional[str]             # "cre"
 
     def __str__(self) -> str:
-        parts = ["Nexus GSM Status:"]
+        parts = ["GSM Status:"]
 
         if self.supply_voltage is not None:
             parts.append(f"  Supply voltage: {self.supply_voltage} V")
