@@ -3,12 +3,13 @@ from __future__ import annotations
 from datetime import datetime
 import ssl
 import aiohttp
-from typing import Any, FrozenSet, Tuple
+from typing import Any
 
 from .models import *
 from .const import *
 from .exceptions import *
-from .models.area import SetAreaModeRequest, AreaMode, ClearAreaAlarmMemoryRequest
+from .models.partition import SetPartitionModeRequest, PartitionMode, ClearPartitionAlarmMemoryRequest, PartitionStatus, \
+    PartitionState
 from .models.output import OutputSetRequest
 
 from .models.scenario import ScenarioStatus, ActivateScenarioRequest
@@ -173,23 +174,23 @@ class InimPrimeClient:
 
         return outputs
 
-    async def get_areas_status(self) -> dict[int, AreaStatus]:
+    async def get_partitions_status(self) -> dict[int, PartitionStatus]:
         raw_data = await self._request(CMD_GET_PARTITIONS_STATUS)
 
-        areas_data = raw_data.get("part", [])
+        partitions_data = raw_data.get("part", [])
 
-        areas = {
-            int(area_data["id"]): AreaStatus(
-                id=int(area_data["id"]),
-                name=area_data["lb"],
-                state=AreaState(int(area_data["st"])),
-                mode=AreaMode(int(area_data["am"])),
-                alarm_memory=bool(int(area_data["mm"])),
+        partitions = {
+            int(partition_data["id"]): PartitionStatus(
+                id=int(partition_data["id"]),
+                name=partition_data["lb"],
+                state=PartitionState(int(partition_data["st"])),
+                mode=PartitionMode(int(partition_data["am"])),
+                alarm_memory=bool(int(partition_data["mm"])),
             )
-            for area_data in areas_data
+            for partition_data in partitions_data
         }
 
-        return areas
+        return partitions
 
     async def get_scenarios_status(self) -> dict[int, ScenarioStatus]:
         raw_data = await self._request(CMD_GET_SCENARIOS_STATUS)
@@ -289,26 +290,26 @@ class InimPrimeClient:
 
         return
 
-    async def set_area_mode(
+    async def set_partition_mode(
             self,
-            request: SetAreaModeRequest,
+            request: SetPartitionModeRequest,
     ) -> None:
 
         await self._request(
             CMD_SET_PARTITIONS_MODE,
-            p1=request.area_id,
+            p1=request.partition_id,
             p2=request.mode.value,
         )
 
         return
 
-    async def clear_area_alarm_memory(
+    async def clear_partition_alarm_memory(
         self,
-        request: ClearAreaAlarmMemoryRequest,
+        request: ClearPartitionAlarmMemoryRequest,
     ) -> None:
         await self._request(
             CMD_SET_PARTITIONS_MODE,
-            p1=request.area_id,
+            p1=request.partition_id,
             p2=5,
         )
 

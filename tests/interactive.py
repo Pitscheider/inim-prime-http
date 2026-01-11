@@ -4,7 +4,7 @@ import sys
 from inim_prime import InimPrimeClient
 from inim_prime.helpers.zones import get_excluded_zones, include_all_zones
 from inim_prime.models import ZoneExclusionSetRequest
-from inim_prime.models.area import AreaMode, SetAreaModeRequest
+from inim_prime.models.partition import PartitionMode, SetPartitionModeRequest
 
 from inim_prime.models.output import OutputSetRequest
 from inim_prime.models.scenario import ActivateScenarioRequest
@@ -27,14 +27,14 @@ def print_help():
     print("2. get_api_version")
     print("3. get_zones")
     print("4. get_outputs")
-    print("5. get_areas")
+    print("5. get_partitions")
     print("6. get_scenarios")
     print("7. get_log_events")
     print("8. get_gsm_status")
     print("9. get_system_faults")
     print("10. set_zone_exclusion")
     print("11. set_output")
-    print("12. set_area_mode")
+    print("12. set_partition_mode")
     print("13. activate_scenario")
     print("101. get_excluded_zones")
     print("102. include_all_zones")
@@ -75,9 +75,9 @@ async def main():
                     for output in outputs.values():
                         print(output)
                 elif choice == "5":
-                    areas = await client.get_areas_status()
-                    for area in areas.values():
-                        print(area)
+                    partitions = await client.get_partitions_status()
+                    for partition in partitions.values():
+                        print(partition)
                 elif choice == "6":
                     scenarios = await client.get_scenarios_status()
                     for scenario in scenarios.values():
@@ -124,17 +124,17 @@ async def main():
                         print("Invalid input:", e)
                 elif choice == "12":
                     try:
-                        area_id = int(input("Enter area ID: ").strip())
+                        partition_id = int(input("Enter partition ID: ").strip())
 
                         print("Select mode:")
-                        for mode in AreaMode:
+                        for mode in PartitionMode:
                             print(f"{mode.value} = {mode.name}")
 
                         mode_input = int(input("Enter mode: ").strip())
-                        mode = AreaMode(mode_input)
+                        mode = PartitionMode(mode_input)
 
-                        await client.set_area_mode(
-                            SetAreaModeRequest(area_id=area_id, mode=mode)
+                        await client.set_partition_mode(
+                            SetPartitionModeRequest(partition_id=partition_id, mode=mode)
                         )
                     except ValueError as e:
                         print("Invalid input:", e)
