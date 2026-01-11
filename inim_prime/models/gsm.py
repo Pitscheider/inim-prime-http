@@ -29,3 +29,10 @@ class GSMSStatus:
             parts.append(f"  Credit: {self.credit}")
 
         return "\n".join(parts)
+
+    @property
+    def signal_strength_dbm(self) -> Optional[int]:
+        """Convert CSQ to dBm (-113 + 2*CSQ). Returns None if unknown."""
+        if self.signal_strength is None or self.signal_strength == 99:
+            return None
+        return -113 + 2 * self.signal_strength
