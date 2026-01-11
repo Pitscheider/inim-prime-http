@@ -4,8 +4,8 @@ from typing import Optional, FrozenSet
 
 class SystemFault(IntEnum):
     # Byte 0
-    AVAILABLE_1 = 0
-    AVAILABLE_2 = 1
+    RESERVED_0 = 0
+    RESERVED_1 = 1
     LOW_BATTERY = 2
     NETWORK_FAULT = 3
     NO_TELEPHONE_LINE = 4
