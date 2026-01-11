@@ -7,7 +7,7 @@ class GSMSStatus:
     supply_voltage: Optional[float]   # "vcc"
     firmware_version: Optional[str]   # "fwv"
     operator: Optional[str]           # "gop"
-    signal_strength: Optional[int]    # gpw (CSQ / RSSI index)
+    signal_strength: Optional[int]    # percentage 0 - 100%
     credit: Optional[str]             # "cre"
 
     def __str__(self) -> str:
@@ -23,16 +23,9 @@ class GSMSStatus:
             parts.append(f"  Operator: {self.operator}")
 
         if self.signal_strength is not None:
-            parts.append(f"  Signal strength (CSQ): {self.signal_strength}")
+            parts.append(f"  Signal strength: {self.signal_strength} %")
 
         if self.credit:
             parts.append(f"  Credit: {self.credit}")
 
         return "\n".join(parts)
-
-    @property
-    def signal_strength_dbm(self) -> Optional[int]:
-        """Convert CSQ to dBm (-113 + 2*CSQ). Returns None if unknown."""
-        if self.signal_strength is None or self.signal_strength == 99:
-            return None
-        return -113 + 2 * self.signal_strength
