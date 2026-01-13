@@ -6,7 +6,7 @@ from inim_prime.models import ZoneStatus, ZoneExclusionSetRequest
 
 async def get_excluded_zones(client: InimPrimeClient) -> List[ZoneStatus]:
     zones = await client.get_zones_status()
-    return [z for z in zones if z.excluded]
+    return [z for z in zones.values() if z.excluded]
 
 
 async def include_all_zones(client: InimPrimeClient) -> List[ZoneStatus]:
