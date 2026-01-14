@@ -225,8 +225,8 @@ class InimPrimeClient:
                     log_event_data["dt"], "%d/%m/%Y %H:%M:%S"
                 ),
                 type=log_event_data["ty"],
-                agent=log_event_data["ag"] or None,
-                location=log_event_data["lo"] or None,
+                agent=log_event_data["lo"] or None,
+                location=log_event_data["ag"] or None,
                 value=log_event_data["v"] or None,
             )
             for log_event_data in log_events_data

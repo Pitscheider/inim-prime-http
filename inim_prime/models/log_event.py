@@ -7,10 +7,10 @@ from typing import Optional
 class LogEvent:
     id: int
     timestamp: datetime
-    type: str           # "ty" - event type
-    agent: Optional[str]          # "ag" - who generated the event
-    location: Optional[str]       # "lo" - place of the event
-    value: Optional[str] = None  # "v" - future use
+    type: str
+    agent: Optional[str]
+    location: Optional[str]
+    value: Optional[str] = None
 
     def __str__(self) -> str:
         parts = [
