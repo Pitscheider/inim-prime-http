@@ -95,14 +95,101 @@ scenarios.append(("No overlap", last, current))
 # 8.
 last = [
     make_event(base_time, "A"),
+    make_event(base_time, "B"),
+    make_event(base_time, "C"),
+]
+current = [
+    make_event(base_time, "C"),
+    make_event(base_time + timedelta(seconds=10), "C"),
+    make_event(base_time + timedelta(seconds=10), "C"),
+    make_event(base_time + timedelta(seconds=10), "C"),
+]
+scenarios.append(("Last longer than current", last, current))
+
+# Additional test scenarios
+# 9. Empty current events → always empty result
+scenarios.append(("Empty current events", [
+    make_event(base_time, "A"),
+    make_event(base_time + timedelta(seconds=1), "B"),
+], []))
+
+# 10. Empty last events → all current events returned
+scenarios.append(("Empty last events", [], [
+    make_event(base_time, "A"),
+    make_event(base_time + timedelta(seconds=1), "B"),
+    make_event(base_time + timedelta(seconds=2), "C"),
+]))
+
+# 11. Identical single event → no new events
+last = [make_event(base_time, "A")]
+current = [make_event(base_time, "A")]
+scenarios.append(("Single identical event", last, current))
+
+# 12. Single new event added
+last = [make_event(base_time, "A")]
+current = [
+    make_event(base_time, "A"),
+    make_event(base_time + timedelta(seconds=1), "B"),
+]
+scenarios.append(("Single new event appended", last, current))
+
+# 13. Multiple new events appended
+last = [
+    make_event(base_time, "A"),
+    make_event(base_time + timedelta(seconds=1), "B"),
 ]
 current = [
     make_event(base_time, "A"),
+    make_event(base_time + timedelta(seconds=1), "B"),
+    make_event(base_time + timedelta(seconds=2), "C"),
+    make_event(base_time + timedelta(seconds=3), "D"),
+]
+scenarios.append(("Multiple new events appended", last, current))
+
+# 14. Partial overlap, current shorter
+last = [
     make_event(base_time, "A"),
-    make_event(base_time, "B"),
+    make_event(base_time + timedelta(seconds=1), "B"),
+    make_event(base_time + timedelta(seconds=2), "C"),
+]
+current = [
+    make_event(base_time + timedelta(seconds=1), "B"),
+    make_event(base_time + timedelta(seconds=2), "C"),
+]
+scenarios.append(("Partial overlap, current shorter", last, current))
+
+# 15. No overlap, current shorter
+last = [
+    make_event(base_time, "A"),
+    make_event(base_time + timedelta(seconds=1), "B"),
+]
+current = [
+    make_event(base_time + timedelta(seconds=10), "X"),
+]
+scenarios.append(("No overlap, current shorter", last, current))
+
+# 16. Repeated events in current list
+last = [
     make_event(base_time, "A"),
 ]
-scenarios.append(("Last longer than current", last, current))
+current = [
+    make_event(base_time, "A"),
+    make_event(base_time + timedelta(seconds=1), "B"),
+    make_event(base_time + timedelta(seconds=1), "B"),
+    make_event(base_time + timedelta(seconds=2), "C"),
+]
+scenarios.append(("Repeated events in current", last, current))
+
+# 17. Last longer than current, no overlap
+last = [
+    make_event(base_time, "A"),
+    make_event(base_time + timedelta(seconds=1), "B"),
+    make_event(base_time + timedelta(seconds=2), "C"),
+]
+current = [
+    make_event(base_time + timedelta(seconds=10), "X"),
+]
+scenarios.append(("Last longer than current, no overlap", last, current))
 
 # Run tests
 for title, last_events, current_events in scenarios:
