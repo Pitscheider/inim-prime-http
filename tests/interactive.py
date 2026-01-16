@@ -56,7 +56,7 @@ async def main():
             try:
                 if choice == "0":
                     print("Exiting...")
-                    client.close()
+                    await client.close()
                     break
                 elif choice == "?":
                     print_help()
