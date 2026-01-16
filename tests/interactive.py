@@ -142,19 +142,21 @@ async def main():
                     scenario_id = int(input("Enter scenario ID to activate: "))
                     await client.activate_scenario(ActivateScenarioRequest(scenario_id))
                 elif choice == "101":
-                    excluded = await get_excluded_zones(client)
+                    zones = await client.get_zones_status()
+                    excluded = get_excluded_zones(zones)
 
                     if excluded:
-                        for zone in excluded:
+                        for zone in excluded.values():
                             print(zone)
                     else:
                         print("No zones to exclude")
                 elif choice == "102":
-                    included = await include_all_zones(client)
+                    zones = await client.get_zones_status()
+                    included = await include_all_zones(zones, client)
 
                     if included:
                         print("Zones included:")
-                        for zone in included:
+                        for zone in included.values():
                             print(zone.short_str())
                     else:
                         print("All the zones are already included")
