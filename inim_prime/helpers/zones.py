@@ -5,7 +5,7 @@ from inim_prime.models import ZoneStatus, ZoneExclusionSetRequest
 
 
 def get_excluded_zones(
-    zones: dict[int, ZoneStatus],
+        zones: dict[int, ZoneStatus],
 ) -> dict[int, ZoneStatus]:
     return {
         zone_id: zone
@@ -16,8 +16,11 @@ def get_excluded_zones(
 
 
 async def include_all_zones(
-    zones: dict[int, ZoneStatus],
-    client: InimPrimeClient,
+        zones: dict[int, ZoneStatus],
+        client: InimPrimeClient,
+        timeout: int = None,
+        retries: int = None,
+        retry_delay: float = None,
 ) -> dict[int, ZoneStatus]:
 
     excluded_zones = get_excluded_zones(zones)
@@ -27,6 +30,11 @@ async def include_all_zones(
             zone_id=zone.id,
             exclude=False,
         )
-        await client.set_zone_exclusion(request)
+        await client.set_zone_exclusion(
+            request=request,
+            timeout=timeout,
+            retries=retries,
+            retry_delay=retry_delay,
+        )
 
     return excluded_zones
