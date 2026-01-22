@@ -4,11 +4,11 @@ from typing import Optional
 
 @dataclass(frozen = True)
 class GSMSStatus:
-    supply_voltage: Optional[float]  # "vcc"
-    firmware_version: Optional[str]  # "fwv"
-    operator: Optional[str]  # "gop"
+    supply_voltage: Optional[float]
+    firmware_version: Optional[str]
+    operator: Optional[str]
     signal_strength: Optional[int]  # percentage 0 - 100%
-    credit: Optional[str]  # "credit"
+    credit: Optional[str]
 
     def __str__(self) -> str:
         parts = ["GSM Status:"]
