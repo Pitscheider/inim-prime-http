@@ -10,6 +10,7 @@ class PartitionMode(IntEnum):
     INSTANT = 3
     DISARMED = 4
 
+
 class PartitionArmMode(IntEnum):
     TOTAL = PartitionMode.TOTAL
     PARTIAL = PartitionMode.PARTIAL
@@ -21,7 +22,8 @@ class PartitionState(IntEnum):
     READY = 1
     SABOTAGE = 2
 
-@dataclass(frozen=True)
+
+@dataclass(frozen = True)
 class PartitionStatus(PanelItemStatus):
     mode: PartitionMode
     state: PartitionState
@@ -35,12 +37,13 @@ class PartitionStatus(PanelItemStatus):
             f"  Alarm memory: {'Yes' if self.alarm_memory else 'No'}"
         )
 
-@dataclass(frozen=True)
+
+@dataclass(frozen = True)
 class SetPartitionModeRequest:
     partition_id: int
     mode: PartitionMode
 
-@dataclass(frozen=True)
+
+@dataclass(frozen = True)
 class ClearPartitionAlarmMemoryRequest:
     partition_id: int
-

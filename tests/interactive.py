@@ -4,9 +4,8 @@ import sys
 from inim_prime import InimPrimeClient
 from inim_prime.helpers.zones import get_excluded_zones, include_all_zones
 from inim_prime.models import ZoneExclusionSetRequest
-from inim_prime.models.partition import PartitionMode, SetPartitionModeRequest
-
 from inim_prime.models.output import OutputSetRequest
+from inim_prime.models.partition import PartitionMode, SetPartitionModeRequest
 from inim_prime.models.scenario import ActivateScenarioRequest
 
 if sys.platform == "win32":
@@ -18,6 +17,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()  # loads variables from .env into environment
+
 
 def print_help():
     print("\nAvailable commands:")
@@ -42,10 +42,8 @@ def print_help():
 
 
 async def main():
-
     host = os.getenv("INIM_HOST")
     api_key = os.getenv("INIM_API_KEY")
-
 
     async with InimPrimeClient(host, api_key) as client:
         print("Connected to Inim Prime panel!")
@@ -87,7 +85,7 @@ async def main():
 
                     if user_input:
                         limit = int(user_input)
-                        log_events = await client.get_log_events(limit=limit)
+                        log_events = await client.get_log_events(limit = limit)
                     else:
                         # user pressed Enter → do not pass limit, let default apply
                         log_events = await client.get_log_events()
@@ -104,8 +102,8 @@ async def main():
                     exclude = bool(int(input("Exclude (default true, 0 = false): ") or 1))
 
                     request = ZoneExclusionSetRequest(
-                        zone_id=zone_id,
-                        exclude= exclude,
+                        zone_id = zone_id,
+                        exclude = exclude,
                     )
 
                     await client.set_zone_exclusion(request)
@@ -115,8 +113,8 @@ async def main():
                         value = int(input("Enter value (0=off, 1=on, 1-100=dimming): ").strip())
 
                         request = OutputSetRequest(
-                            output_id=output_id,
-                            value=value,
+                            output_id = output_id,
+                            value = value,
                         )
 
                         await client.set_output(request)
@@ -134,7 +132,7 @@ async def main():
                         mode = PartitionMode(mode_input)
 
                         await client.set_partition_mode(
-                            SetPartitionModeRequest(partition_id=partition_id, mode=mode)
+                            SetPartitionModeRequest(partition_id = partition_id, mode = mode)
                         )
                     except ValueError as e:
                         print("Invalid input:", e)

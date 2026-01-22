@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Optional
 
 
-@dataclass(frozen=True)
+@dataclass(frozen = True)
 class LogEvent:
     id: int
     timestamp: datetime

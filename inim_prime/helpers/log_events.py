@@ -37,8 +37,8 @@ def filter_new_log_events(
     last_keys = [event_key(e) for e in last_log_events]
     current_keys = [event_key(e) for e in current_log_events]
 
-    n_last = len(last_keys)         # number of events in the old list
-    n_curr = len(current_keys)      # number of events in the new list
+    n_last = len(last_keys)  # number of events in the old list
+    n_curr = len(current_keys)  # number of events in the new list
 
     # -------------------------------
     # Case 0: No old events

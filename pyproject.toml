@@ -4,9 +4,9 @@ version = "0.1.0"
 description = "Async Python client for INIM Prime alarm panels"
 readme = "README.md"
 requires-python = ">=3.11"
-license = {text = "GPLv3"}
+license = { text = "GPLv3" }
 authors = [
-    {name = "Manuel Pitscheider", email = "pitscheider@tuta.com"}
+    { name = "Manuel Pitscheider", email = "pitscheider@tuta.com" }
 ]
 keywords = ["inim", "alarm", "panel", "async", "home-automation"]
 classifiers = [

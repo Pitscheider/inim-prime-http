@@ -1,7 +1,8 @@
 from abc import ABC
 from dataclasses import dataclass
 
-@dataclass(frozen=True)
+
+@dataclass(frozen = True)
 class PanelItemStatus(ABC):
     id: int
     name: str

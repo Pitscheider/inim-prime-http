@@ -2,13 +2,13 @@ from dataclasses import dataclass
 from typing import Optional
 
 
-@dataclass(frozen=True)
+@dataclass(frozen = True)
 class GSMSStatus:
-    supply_voltage: Optional[float]   # "vcc"
-    firmware_version: Optional[str]   # "fwv"
-    operator: Optional[str]           # "gop"
-    signal_strength: Optional[int]    # percentage 0 - 100%
-    credit: Optional[str]             # "credit"
+    supply_voltage: Optional[float]  # "vcc"
+    firmware_version: Optional[str]  # "fwv"
+    operator: Optional[str]  # "gop"
+    signal_strength: Optional[int]  # percentage 0 - 100%
+    credit: Optional[str]  # "credit"
 
     def __str__(self) -> str:
         parts = ["GSM Status:"]

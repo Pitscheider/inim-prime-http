@@ -3,17 +3,19 @@ from enum import IntEnum
 
 from inim_prime.models.panel_item import PanelItemStatus
 
+
 class ZoneState(IntEnum):
     FAULT = 0
     READY = 1
     ALARM = 2
     SHORT_CIRCUIT = 3
 
-@dataclass(frozen=True)
+
+@dataclass(frozen = True)
 class ZoneStatus(PanelItemStatus):
-    terminal: int     # "tl" - zone terminal
-    state: ZoneState        # "st" - 0=fault, 1=ready, 2=alarm, 3=short circuit
-    alarm_memory: bool # "mm" - False=not present, True=present
+    terminal: int  # "tl" - zone terminal
+    state: ZoneState  # "st" - 0=fault, 1=ready, 2=alarm, 3=short circuit
+    alarm_memory: bool  # "mm" - False=not present, True=present
     excluded: bool
 
     def __str__(self) -> str:
@@ -27,9 +29,11 @@ class ZoneStatus(PanelItemStatus):
     def short_str(self) -> str:
         return f"Zone {self.id}: {self.name}"
 
+
 from dataclasses import dataclass
 
-@dataclass(frozen=True)
+
+@dataclass(frozen = True)
 class ZoneExclusionSetRequest:
     zone_id: int
     exclude: bool = True  # True = excluded, False = included

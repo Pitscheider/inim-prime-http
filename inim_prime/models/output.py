@@ -12,15 +12,14 @@ class OutputType(IntEnum):
     VOLT_0_10V = 3
 
 
-@dataclass(frozen=True)
+@dataclass(frozen = True)
 class OutputStatus(PanelItemStatus):
-    terminal: int     # "tl" - output terminal
+    terminal: int  # "tl" - output terminal
     state: int
     type: OutputType
     voltage: Optional[float] = None  # "v" only for dimming outputs
-    power: Optional[float] = None    # "p" only for dimming outputs
+    power: Optional[float] = None  # "p" only for dimming outputs
     cos_phi: Optional[float] = None  # "c" only for dimming outputs
-
 
     @property
     def is_dimming(self) -> bool:
@@ -40,7 +39,8 @@ class OutputStatus(PanelItemStatus):
             )
         return base
 
-@dataclass(frozen=True)
+
+@dataclass(frozen = True)
 class OutputSetRequest:
     output_id: int
     value: int  # 0 = off, 1 = on, 1..100 = dimming

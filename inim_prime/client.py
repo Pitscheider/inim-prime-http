@@ -1,18 +1,18 @@
 from __future__ import annotations
 
 import asyncio
-from datetime import datetime
 import ssl
-import aiohttp
+from datetime import datetime
 from typing import Any
 
-from .models import *
+import aiohttp
+
 from .const import *
 from .exceptions import *
+from .models import *
+from .models.output import OutputSetRequest
 from .models.partition import SetPartitionModeRequest, PartitionMode, ClearPartitionAlarmMemoryRequest, PartitionStatus, \
     PartitionState
-from .models.output import OutputSetRequest
-
 from .models.scenario import ScenarioStatus, ActivateScenarioRequest
 from .models.system_faults import SystemFaultsStatus, SystemFault
 from .models.zone import ZoneExclusionSetRequest
@@ -26,6 +26,7 @@ def _handle_status(status: int) -> None:
         (f"Unknown API error: {status}", InimPrimeError)
     )
     raise exc_class(message)
+
 
 def _parse_float(value: str | None) -> float | None:
     """Parse a float, handling European decimal comma."""
@@ -47,6 +48,13 @@ def _parse_faults(value: str | int) -> frozenset[SystemFault]:
     )
 
 
+def _create_ssl_context() -> ssl.SSLContext:
+    context = ssl.create_default_context()
+    context.check_hostname = False
+    context.verify_mode = ssl.CERT_NONE
+    context.set_ciphers("DEFAULT:@SECLEVEL=1")
+    return context
+
 
 class InimPrimeClient:
     """
@@ -54,17 +62,17 @@ class InimPrimeClient:
     """
 
     def __init__(
-        self,
-        host: str,
-        api_key: str,
-        timeout: int = 20,
-        use_https: bool = True,
-        ping_on_connect = True,
+            self,
+            host: str,
+            api_key: str,
+            timeout: int = 20,
+            use_https: bool = True,
+            ping_on_connect = True,
     ) -> None:
         scheme = "https" if use_https else "http"
         self._base_url = f"{scheme}://{host.rstrip('/')}"
         self._api_key = api_key
-        self._timeout = aiohttp.ClientTimeout(total=timeout)
+        self._timeout = aiohttp.ClientTimeout(total = timeout)
         self._use_https = use_https
         self._ping_on_connect = ping_on_connect
         self._session: aiohttp.ClientSession | None = None
@@ -77,7 +85,6 @@ class InimPrimeClient:
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self.close()
 
-
     async def connect(self) -> None:
         if self._session is not None:
             return
@@ -85,18 +92,12 @@ class InimPrimeClient:
         connector = None
 
         if self._use_https:
-            ssl_context = ssl.create_default_context()
-            ssl_context.check_hostname = False
-            ssl_context.verify_mode = ssl.CERT_NONE
-
-            # Mandatory in order to communicate with the panel through https
-            ssl_context.set_ciphers("DEFAULT:@SECLEVEL=1")
-
-            connector = aiohttp.TCPConnector(ssl=ssl_context)
+            ssl_context = await asyncio.to_thread(_create_ssl_context)
+            connector = aiohttp.TCPConnector(ssl = ssl_context)
 
         self._session = aiohttp.ClientSession(
-            timeout=self._timeout,
-            connector=connector,
+            timeout = self._timeout,
+            connector = connector,
         )
 
         if self._ping_on_connect:
@@ -122,14 +123,14 @@ class InimPrimeClient:
         query.update(params)
         url = f"{self._base_url}{API_PATH}"
 
-        request_timeout = aiohttp.ClientTimeout(total=timeout) if timeout else self._timeout
+        request_timeout = aiohttp.ClientTimeout(total = timeout) if timeout else self._timeout
         retries = retries or 0
         retry_delay = retry_delay or 0.5
 
         attempt = 0
         while True:
             try:
-                async with self._session.get(url, params=query, timeout=request_timeout) as response:
+                async with self._session.get(url, params = query, timeout = request_timeout) as response:
                     if response.status != 200:
                         raise InimPrimeExecutionError(f"HTTP error {response.status}")
                     data = await response.json()
@@ -180,7 +181,7 @@ class InimPrimeClient:
             timeout: int = None,
             retries: int = None,
             retry_delay: float = None,
-   ) -> dict[int, ZoneStatus]:
+    ) -> dict[int, ZoneStatus]:
         raw_data = await self._request(
             cmd = CMD_GET_ZONES_STATUS,
             timeout = timeout,
@@ -305,7 +306,7 @@ class InimPrimeClient:
             cmd = CMD_GET_LOG_ELEMENTS,
             timeout = timeout,
             retries = retries,
-            retry_delay=retry_delay,
+            retry_delay = retry_delay,
             p1 = limit,
         )
 
@@ -364,8 +365,8 @@ class InimPrimeClient:
         )
 
         system_faults_status = SystemFaultsStatus(
-            supply_voltage=_parse_float(raw_data.get("vcc")),
-            faults=_parse_faults(raw_data.get("fau")),
+            supply_voltage = _parse_float(raw_data.get("vcc")),
+            faults = _parse_faults(raw_data.get("fau")),
         )
 
         return system_faults_status
@@ -435,11 +436,11 @@ class InimPrimeClient:
         return
 
     async def clear_partition_alarm_memory(
-        self,
-        request: ClearPartitionAlarmMemoryRequest,
-        timeout: int = None,
-        retries: int = None,
-        retry_delay: float = None,
+            self,
+            request: ClearPartitionAlarmMemoryRequest,
+            timeout: int = None,
+            retries: int = None,
+            retry_delay: float = None,
     ) -> None:
         await self._request(
             cmd = CMD_SET_PARTITIONS_MODE,

@@ -12,6 +12,7 @@ def get_partitions_with_alarm_memory(
         if partition.alarm_memory
     }
 
+
 async def clear_all_partitions_alarm_memory(
         partitions: dict[int, PartitionStatus],
         client: InimPrimeClient,
@@ -19,7 +20,6 @@ async def clear_all_partitions_alarm_memory(
         retries: int = None,
         retry_delay: float = None,
 ) -> dict[int, PartitionStatus]:
-
     partitions_with_alarm_memory = get_partitions_with_alarm_memory(partitions)
 
     for partition in partitions_with_alarm_memory.values():
@@ -28,9 +28,9 @@ async def clear_all_partitions_alarm_memory(
         )
         await client.clear_partition_alarm_memory(
             request = request,
-            timeout=timeout,
-            retries=retries,
-            retry_delay=retry_delay,
+            timeout = timeout,
+            retries = retries,
+            retry_delay = retry_delay,
         )
 
     return partitions_with_alarm_memory

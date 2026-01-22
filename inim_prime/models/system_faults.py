@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from enum import IntEnum
 from typing import Optional, FrozenSet
 
+
 class SystemFault(IntEnum):
     # Byte 0
     RESERVED_0 = 0
@@ -23,6 +24,7 @@ class SystemFault(IntEnum):
     SABOTAGE_FAULT = 14
     INTERNET_FAULT = 15
 
+
 EXPOSED_SYSTEM_FAULTS: FrozenSet[SystemFault] = frozenset({
     SystemFault.LOW_BATTERY,
     SystemFault.NETWORK_FAULT,
@@ -41,7 +43,7 @@ EXPOSED_SYSTEM_FAULTS: FrozenSet[SystemFault] = frozenset({
 })
 
 
-@dataclass(frozen=True)
+@dataclass(frozen = True)
 class SystemFaultsStatus:
     supply_voltage: Optional[float]
     faults: FrozenSet[SystemFault]
@@ -54,7 +56,7 @@ class SystemFaultsStatus:
 
         if self.faults:
             lines.append("  Active faults:")
-            for fault in sorted(self.faults, key=lambda f: f.value):
+            for fault in sorted(self.faults, key = lambda f: f.value):
                 lines.append(f"    - {fault.name}")
         else:
             lines.append("  No active faults")
