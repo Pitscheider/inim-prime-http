@@ -1,6 +1,6 @@
 from typing import List
 
-from ..models.log_event import LogEvent
+from inim_prime.models.log_event import LogEvent
 
 
 def filter_new_log_events(

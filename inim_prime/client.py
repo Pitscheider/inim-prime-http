@@ -7,21 +7,21 @@ from typing import Any
 
 import aiohttp
 
-from .const import *
-from .exceptions import *
-from .models.gsm import GSMSStatus
-from .models.log_event import LogEvent
-from .models.output import OutputSetRequest, OutputStatus, OutputType
-from .models.partition import (
+from inim_prime.const import *
+from inim_prime.exceptions import *
+from inim_prime.models.gsm import GSMSStatus
+from inim_prime.models.log_event import LogEvent
+from inim_prime.models.output import OutputSetRequest, OutputStatus, OutputType
+from inim_prime.models.partition import (
     SetPartitionModeRequest,
     PartitionMode,
     ClearPartitionAlarmMemoryRequest,
     PartitionStatus,
     PartitionState,
 )
-from .models.scenario import ScenarioStatus, ActivateScenarioRequest
-from .models.system_faults import SystemFaultsStatus, SystemFault
-from .models.zone import ZoneExclusionSetRequest, ZoneStatus, ZoneState
+from inim_prime.models.scenario import ScenarioStatus, ActivateScenarioRequest
+from inim_prime.models.system_faults import SystemFaultsStatus, SystemFault
+from inim_prime.models.zone import ZoneExclusionSetRequest, ZoneStatus, ZoneState
 
 
 def _handle_status(status: int) -> None:

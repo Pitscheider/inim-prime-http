@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from .panel_item import PanelItemStatus
+from inim_prime.models.panel_item import PanelItemStatus
 
 
 @dataclass(frozen = True)

@@ -1,5 +1,5 @@
-from .. import InimPrimeClient
-from ..models.zone import ZoneStatus
+from inim_prime import InimPrimeClient
+from inim_prime.models.zone import ZoneStatus
 
 
 def get_excluded_zones(
