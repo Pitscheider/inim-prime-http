@@ -1,0 +1,1 @@
+from inim_prime_api.client import InimPrimeClient

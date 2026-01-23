@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import IntEnum
 
-from inim_prime.models.panel_item import PanelItemStatus
+from inim_prime_api.models.panel_item import PanelItemStatus
 
 
 class ZoneState(IntEnum):
