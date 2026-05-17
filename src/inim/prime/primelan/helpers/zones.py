@@ -1,4 +1,4 @@
-from inim.prime.primelan import InimPrimeClient
+from inim.prime.primelan.client import InimPrimeClient
 from inim.prime.primelan.models.zone import ZoneStatus, ZoneExclusionSetRequest
 
 

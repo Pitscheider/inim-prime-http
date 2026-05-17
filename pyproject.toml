@@ -1,5 +1,5 @@
 [project]
-name = "inim_prime_api"
+name = "inim-prime-primelan"
 version = "0.1.3"
 description = "Async Python client for INIM Prime alarm panels"
 readme = "README.md"

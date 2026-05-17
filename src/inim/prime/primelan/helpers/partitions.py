@@ -1,7 +1,5 @@
-from inim.prime.primelan import InimPrimeClient
-
+from inim.prime.primelan.client import InimPrimeClient
 from inim.prime.primelan.models.partition import ClearPartitionAlarmMemoryRequest, PartitionStatus
-
 
 def get_partitions_with_alarm_memory(
         partitions: dict[int, PartitionStatus],

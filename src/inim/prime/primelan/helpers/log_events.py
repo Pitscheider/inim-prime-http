@@ -2,7 +2,6 @@ from typing import List
 
 from inim.prime.primelan.models.log_event import LogEvent
 
-
 def filter_new_log_events(
         last_log_events: List[LogEvent],
         current_log_events: List[LogEvent]
