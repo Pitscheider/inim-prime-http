@@ -1,5 +1,5 @@
 ## Introduction
-inim-prime-http allows you to communicate with INIM Prime alarm panels over HTTP/HTTPS using an asynchronous API with
+inim-prime-primelan allows you to communicate with INIM Prime alarm panels over HTTP/HTTPS using an asynchronous API with
 Python.
 An Inim PrimeLAN card is needed in order to communicate.
 ## Development process
