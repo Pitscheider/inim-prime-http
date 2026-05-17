@@ -1,5 +1,5 @@
-from inim_prime_api import InimPrimeClient
-from inim_prime_api.models.zone import ZoneStatus, ZoneExclusionSetRequest
+from inim.prime.http import InimPrimeClient
+from inim.prime.http.models.zone import ZoneStatus, ZoneExclusionSetRequest
 
 
 def get_excluded_zones(
@@ -15,9 +15,9 @@ def get_excluded_zones(
 async def include_all_zones(
         zones: dict[int, ZoneStatus],
         client: InimPrimeClient,
-        timeout: int = None,
-        retries: int = None,
-        retry_delay: float = None,
+        timeout: int | None = None,
+        retries: int | None = None,
+        retry_delay: float | None = None,
 ) -> dict[int, ZoneStatus]:
     excluded_zones = get_excluded_zones(zones)
 

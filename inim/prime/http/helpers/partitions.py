@@ -1,6 +1,6 @@
-from inim_prime_api import InimPrimeClient
+from inim.prime.http import InimPrimeClient
 
-from inim_prime_api.models.partition import ClearPartitionAlarmMemoryRequest, PartitionStatus
+from inim.prime.http.models.partition import ClearPartitionAlarmMemoryRequest, PartitionStatus
 
 
 def get_partitions_with_alarm_memory(
@@ -16,9 +16,9 @@ def get_partitions_with_alarm_memory(
 async def clear_all_partitions_alarm_memory(
         partitions: dict[int, PartitionStatus],
         client: InimPrimeClient,
-        timeout: int = None,
-        retries: int = None,
-        retry_delay: float = None,
+        timeout: int | None = None,
+        retries: int | None = None,
+        retry_delay: float | None = None,
 ) -> dict[int, PartitionStatus]:
     partitions_with_alarm_memory = get_partitions_with_alarm_memory(partitions)
 

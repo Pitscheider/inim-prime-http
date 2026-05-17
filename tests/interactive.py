@@ -1,17 +1,12 @@
 import asyncio
-import sys
 
-from inim_prime_api.models.zone import ZoneExclusionSetRequest
-from inim_prime_api import InimPrimeClient
-from inim_prime_api.helpers.zones import get_excluded_zones, include_all_zones
+from inim.prime.http.models.zone import ZoneExclusionSetRequest
+from inim.prime.http import InimPrimeClient
+from inim.prime.http.helpers.zones import get_excluded_zones, include_all_zones
 
-from inim_prime_api.models.output import OutputSetRequest
-from inim_prime_api.models.partition import PartitionMode, SetPartitionModeRequest
-from inim_prime_api.models.scenario import ActivateScenarioRequest
-
-if sys.platform == "win32":
-    # Use SelectorEventLoop for Windows compatibility
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+from inim.prime.http.models.output import OutputSetRequest
+from inim.prime.http.models.scenario import ActivateScenarioRequest
+from models.partition import PartitionMode, SetPartitionModeRequest
 
 # Install first: pip install python-dotenv
 from dotenv import load_dotenv
@@ -45,6 +40,11 @@ def print_help():
 async def main():
     host = os.getenv("INIM_HOST")
     api_key = os.getenv("INIM_API_KEY")
+
+    if host is None:
+        raise Exception("No INIM host provided")
+    if api_key is None:
+        raise Exception("No INIM API key provided")
 
     async with InimPrimeClient(host, api_key) as client:
         print("Connected to Inim Prime panel!")

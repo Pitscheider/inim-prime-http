@@ -1,6 +1,6 @@
 from typing import List
 
-from inim_prime_api.models.log_event import LogEvent
+from inim.prime.http.models.log_event import LogEvent
 
 
 def filter_new_log_events(

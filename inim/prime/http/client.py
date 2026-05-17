@@ -7,22 +7,20 @@ from typing import Any
 
 import aiohttp
 
-from inim_prime_api.const import *
-from inim_prime_api.exceptions import *
-from inim_prime_api.models.gsm import GSMSStatus
-from inim_prime_api.models.log_event import LogEvent
-from inim_prime_api.models.output import OutputSetRequest, OutputStatus, OutputType
-from inim_prime_api.models.partition import (
+from inim.prime.http.models.gsm import GSMSStatus
+from inim.prime.http.models.log_event import LogEvent
+from inim.prime.http.models.output import OutputSetRequest, OutputStatus, OutputType
+from inim.prime.http.models.partition import (
     SetPartitionModeRequest,
     PartitionMode,
     ClearPartitionAlarmMemoryRequest,
     PartitionStatus,
     PartitionState,
 )
-from inim_prime_api.models.scenario import ScenarioStatus, ActivateScenarioRequest
-from inim_prime_api.models.system_faults import SystemFaultsStatus, SystemFault
-from inim_prime_api.models.zone import ZoneExclusionSetRequest, ZoneStatus, ZoneState
-
+from inim.prime.http.models.scenario import ScenarioStatus, ActivateScenarioRequest
+from inim.prime.http.models.system_faults import SystemFaultsStatus, SystemFault
+from inim.prime.http.models.zone import ZoneExclusionSetRequest, ZoneStatus, ZoneState
+from inim.prime.http.const import *
 
 def _handle_status(status: int) -> None:
     if status == STATUS_SUCCESS:
@@ -155,9 +153,9 @@ class InimPrimeClient:
 
     async def get_api_version(
             self,
-            timeout: int = None,
-            retries: int = None,
-            retry_delay: float = None,
+            timeout: int | None = None,
+            retries: int | None = None,
+            retry_delay: float | None = None,
     ) -> str:
         raw_data = await self._request(
             cmd = CMD_VERSION,
@@ -170,9 +168,9 @@ class InimPrimeClient:
 
     async def ping(
             self,
-            timeout: int = None,
-            retries: int = None,
-            retry_delay: float = None,
+            timeout: int | None = None,
+            retries: int | None = None,
+            retry_delay: float | None = None,
     ) -> bool:
         await self._request(
             cmd = CMD_PING,
@@ -184,9 +182,9 @@ class InimPrimeClient:
 
     async def get_zones_status(
             self,
-            timeout: int = None,
-            retries: int = None,
-            retry_delay: float = None,
+            timeout: int | None = None,
+            retries: int | None = None,
+            retry_delay: float | None = None,
     ) -> dict[int, ZoneStatus]:
         raw_data = await self._request(
             cmd = CMD_GET_ZONES_STATUS,
@@ -213,9 +211,9 @@ class InimPrimeClient:
 
     async def get_outputs_status(
             self,
-            timeout: int = None,
-            retries: int = None,
-            retry_delay: float = None,
+            timeout: int | None = None,
+            retries: int | None = None,
+            retry_delay: float | None = None,
     ) -> dict[int, OutputStatus]:
         raw_data = await self._request(
             cmd = CMD_GET_OUTPUTS_STATUS,
@@ -244,9 +242,9 @@ class InimPrimeClient:
 
     async def get_partitions_status(
             self,
-            timeout: int = None,
-            retries: int = None,
-            retry_delay: float = None,
+            timeout: int | None = None,
+            retries: int | None = None,
+            retry_delay: float | None = None,
     ) -> dict[int, PartitionStatus]:
         raw_data = await self._request(
             cmd = CMD_GET_PARTITIONS_STATUS,
@@ -272,9 +270,9 @@ class InimPrimeClient:
 
     async def get_scenarios_status(
             self,
-            timeout: int = None,
-            retries: int = None,
-            retry_delay: float = None,
+            timeout: int | None = None,
+            retries: int | None = None,
+            retry_delay: float | None = None,
     ) -> dict[int, ScenarioStatus]:
         raw_data = await self._request(
             cmd = CMD_GET_SCENARIOS_STATUS,
@@ -299,9 +297,9 @@ class InimPrimeClient:
     async def get_log_events(
             self,
             limit: int,
-            timeout: int = None,
-            retries: int = None,
-            retry_delay: float = None,
+            timeout: int | None = None,
+            retries: int | None = None,
+            retry_delay: float | None = None,
     ) -> list[LogEvent]:
         if not 1 <= limit <= 4000:
             raise ValueError("limit must be between 1 and 4000")
@@ -336,9 +334,9 @@ class InimPrimeClient:
 
     async def get_gsm_status(
             self,
-            timeout: int = None,
-            retries: int = None,
-            retry_delay: float = None,
+            timeout: int | None = None,
+            retries: int | None = None,
+            retry_delay: float | None = None,
     ) -> GSMSStatus:
         raw_data = await self._request(
             cmd = CMD_GET_GSM_STATUS,
@@ -359,9 +357,9 @@ class InimPrimeClient:
 
     async def get_system_faults_status(
             self,
-            timeout: int = None,
-            retries: int = None,
-            retry_delay: float = None,
+            timeout: int | None = None,
+            retries: int | None = None,
+            retry_delay: float | None = None,
     ) -> SystemFaultsStatus:
         raw_data = await self._request(
             cmd = CMD_GET_FAULTS_STATUS,
@@ -380,9 +378,9 @@ class InimPrimeClient:
     async def set_zone_exclusion(
             self,
             request: ZoneExclusionSetRequest,
-            timeout: int = None,
-            retries: int = None,
-            retry_delay: float = None,
+            timeout: int | None = None,
+            retries: int | None = None,
+            retry_delay: float |None = None,
     ) -> None:
 
         zone_id = request.zone_id
@@ -403,9 +401,9 @@ class InimPrimeClient:
     async def set_output(
             self,
             request: OutputSetRequest,
-            timeout: int = None,
-            retries: int = None,
-            retry_delay: float = None,
+            timeout: int | None = None,
+            retries: int | None = None,
+            retry_delay: float | None = None,
     ) -> None:
 
         if not 0 <= request.value <= 100:
@@ -425,9 +423,9 @@ class InimPrimeClient:
     async def set_partition_mode(
             self,
             request: SetPartitionModeRequest,
-            timeout: int = None,
-            retries: int = None,
-            retry_delay: float = None,
+            timeout: int | None = None,
+            retries: int | None = None,
+            retry_delay: float | None = None,
     ) -> None:
 
         await self._request(
@@ -444,9 +442,9 @@ class InimPrimeClient:
     async def clear_partition_alarm_memory(
             self,
             request: ClearPartitionAlarmMemoryRequest,
-            timeout: int = None,
-            retries: int = None,
-            retry_delay: float = None,
+            timeout: int | None = None,
+            retries: int | None = None,
+            retry_delay: float | None = None,
     ) -> None:
         await self._request(
             cmd = CMD_SET_PARTITIONS_MODE,
@@ -462,9 +460,9 @@ class InimPrimeClient:
     async def activate_scenario(
             self,
             request: ActivateScenarioRequest,
-            timeout: int = None,
-            retries: int = None,
-            retry_delay: float = None,
+            timeout: int | None = None,
+            retries: int | None = None,
+            retry_delay: float| None = None,
     ) -> None:
         await self._request(
             cmd = CMD_SET_SCENARIOS_MODE,
