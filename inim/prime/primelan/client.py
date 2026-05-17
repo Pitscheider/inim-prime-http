@@ -7,20 +7,20 @@ from typing import Any
 
 import aiohttp
 
-from inim.prime.http.models.gsm import GSMSStatus
-from inim.prime.http.models.log_event import LogEvent
-from inim.prime.http.models.output import OutputSetRequest, OutputStatus, OutputType
-from inim.prime.http.models.partition import (
+from inim.prime.primelan.models.gsm import GSMSStatus
+from inim.prime.primelan.models.log_event import LogEvent
+from inim.prime.primelan.models.output import OutputSetRequest, OutputStatus, OutputType
+from inim.prime.primelan.models.partition import (
     SetPartitionModeRequest,
     PartitionMode,
     ClearPartitionAlarmMemoryRequest,
     PartitionStatus,
     PartitionState,
 )
-from inim.prime.http.models.scenario import ScenarioStatus, ActivateScenarioRequest
-from inim.prime.http.models.system_faults import SystemFaultsStatus, SystemFault
-from inim.prime.http.models.zone import ZoneExclusionSetRequest, ZoneStatus, ZoneState
-from inim.prime.http.const import *
+from inim.prime.primelan.models.scenario import ScenarioStatus, ActivateScenarioRequest
+from inim.prime.primelan.models.system_faults import SystemFaultsStatus, SystemFault
+from inim.prime.primelan.models.zone import ZoneExclusionSetRequest, ZoneStatus, ZoneState
+from inim.prime.primelan.const import *
 
 def _handle_status(status: int) -> None:
     if status == STATUS_SUCCESS:
@@ -73,7 +73,7 @@ class InimPrimeClient:
             use_https: bool = True,
             ping_on_connect = True,
     ) -> None:
-        scheme = "https" if use_https else "http"
+        scheme = "https" if use_https else "primelan"
         self._base_url = f"{scheme}://{host.rstrip('/')}"
         self._api_key = api_key
         self._timeout = aiohttp.ClientTimeout(total = timeout)

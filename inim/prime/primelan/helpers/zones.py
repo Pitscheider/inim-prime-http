@@ -1,5 +1,5 @@
-from inim.prime.http import InimPrimeClient
-from inim.prime.http.models.zone import ZoneStatus, ZoneExclusionSetRequest
+from inim.prime.primelan import InimPrimeClient
+from inim.prime.primelan.models.zone import ZoneStatus, ZoneExclusionSetRequest
 
 
 def get_excluded_zones(

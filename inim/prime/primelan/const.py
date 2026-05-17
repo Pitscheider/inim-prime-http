@@ -1,4 +1,4 @@
-from inim.prime.http.exceptions import *
+from inim.prime.primelan.exceptions import *
 
 API_PATH = "/cgi-bin/api.cgi"
 

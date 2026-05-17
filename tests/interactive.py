@@ -1,11 +1,11 @@
 import asyncio
 
-from inim.prime.http.models.zone import ZoneExclusionSetRequest
-from inim.prime.http import InimPrimeClient
-from inim.prime.http.helpers.zones import get_excluded_zones, include_all_zones
+from inim.prime.primelan.models.zone import ZoneExclusionSetRequest
+from inim.prime.primelan import InimPrimeClient
+from inim.prime.primelan.helpers.zones import get_excluded_zones, include_all_zones
 
-from inim.prime.http.models.output import OutputSetRequest
-from inim.prime.http.models.scenario import ActivateScenarioRequest
+from inim.prime.primelan.models.output import OutputSetRequest
+from inim.prime.primelan.models.scenario import ActivateScenarioRequest
 from models.partition import PartitionMode, SetPartitionModeRequest
 
 # Install first: pip install python-dotenv
